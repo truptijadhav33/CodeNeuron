@@ -74,3 +74,7 @@ app.get('/', (req, res) => {
    - The server receives a **GET request**.
    
   - It responds with the text: **"Hello, World!"**
+
+#### Check out more:
+
+[[Routing]] || [[RESTful API]] || [[EJS]]

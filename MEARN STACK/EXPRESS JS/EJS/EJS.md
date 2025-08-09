@@ -90,3 +90,7 @@ app.get("/ig/:username" , (req , res)=>{
 <h1>Welcome to the  @<%= data.name %></h1>
 ```
 
+
+#### Check out more:
+
+[[Interpolation syntax]] || [[static files]]
