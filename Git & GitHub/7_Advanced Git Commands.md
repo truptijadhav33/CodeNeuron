@@ -155,15 +155,119 @@ A -- B -- C -- F -- G -- D' -- E' (feature)
 👉 Useful if you only need one fix, not the whole branch.
 
 ---
+### 6. What is `git reset`?
 
-### **6. Reset vs Revert**
+- `git reset` moves the **HEAD pointer** to a different commit.
+- Depending on the mode, it also updates the **staging area** and/or the **working directory**.
 
-- **Reset** → moves branch pointer backwards (can erase history).
-    `git reset --hard <commit_hash>`
+#### There are 3 main types:
 
-- **Revert** → creates a new commit that undoes previous changes (safe for shared repos).
-    
-    `git revert <commit_hash>`
+- `--soft`
+- `--mixed` (default)
+- `--hard`
+#### Setup a Practice Repo:
+
+```shell
+mkdir reset-tutorial 
+cd reset-tutorial 
+git init
+```
+
+Create a file and commit it:
+
+```shell 
+git add demo.txt 
+git commit -m "Add line 1"
+```
+
+Add a second commit:
+
+```shell
+git add demo.txt 
+git commit -m "Add line 2"
+```
+Check history:
+
+```shell
+git log --oneline
+```
+
+Example output:
+
+```shell
+b2c3d4e Add line 2
+a1b2c3d Add line 1
+```
+#### 1. Soft Reset :
+
+`git reset --soft HEAD~1`
+
+👉 Effect:
+
+- Commit `Add line 2` is removed from history.
+- But the changes (line 2) are still **staged**.
+#### 2. Mixed Reset (default)
+
+`git reset --mixed HEAD~1`
+
+(or just `git reset HEAD~1`)
+
+👉 Effect:
+
+- Commit removed.
+- Changes stay in **working directory** but are **unstaged**.
+
+#### 3. Hard Reset
+
+`git reset --hard HEAD~1`
+
+👉 Effect:
+
+- Commit removed.
+- Changes also **erased from working directory**.
+
+## Summary Table
+
+| Mode      | Commits Removed | Staging Area | Working Directory |
+| --------- | --------------- | ------------ | ----------------- |
+| `--soft`  | ✅ Yes           | ✅ Changed    | ✅ Changed         |
+| `--mixed` | ✅ Yes           | ❌ Cleared    | ✅ Changed         |
+| `--hard`  | ✅ Yes           | ❌ Cleared    | ❌ Cleared         |
+### What is `git revert?:**
+
+- `git revert` creates a **new commit** that _undoes the changes_ of a previous commit.
+- It does **not delete history**, it just adds a commit that cancels out another one.
+- Safer than `git reset` because history remains intact (good for shared repos like GitHub).
+
+## Example
+
+### 1. Commit History
+
+`A → B → C`
+
+- Commit **C** added a new line to a file.
+- C was a mistake.
+### 2. Run Revert
+
+`git revert C`
+
+👉 What happens:
+
+- Git makes a **new commit (D)** that undoes the changes from C.
+- Final history looks like:
+
+`A → B → C → D`
+
+- Commit `C` is still in history, but its effects are gone because `D` reversed them.
+
+#### **Reset vs Revert**
+- **Reset** → 
+	- Moves HEAD back in time (can delete commits)
+	- Dangerous if already pushed
+
+- **Revert** → 
+	- Makes a new commit that undoes an old commit
+	- Safe (preserves history)
 
 👉 Rule of thumb:
 
