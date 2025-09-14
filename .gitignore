@@ -1,2 +1,7 @@
-.obsidian/workspace.json
+.obsidian/
+.vscode/
+*.log
+*.tmp
+*.swp
 .DS_Store
+Thumbs.db
